@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STOP WAR PROJECT — MEMORIAL</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 35px 20px 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 4px;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            color: #777;
+            font-size: 0.85em;
+            letter-spacing: 2px;
+        }
+
+        .memorial {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 130px);
+            min-height: 600px;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255,255,255,0.9);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .star:hover {
+            transform: scale(2.5);
+            box-shadow: 0 0 18px rgba(255,255,255,1);
+        }
+
+        .info {
+            position: fixed;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            width: min(90%, 350px);
+            padding: 18px;
+            background: rgba(15,15,15,0.95);
+            border: 1px solid #333;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            z-index: 10;
+        }
+
+        .info strong {
+            font-size: 1em;
+        }
+
+        .info .date {
+            color: #777;
+            font-size: 0.8em;
+            margin: 8px 0 15px;
+        }
+
+        .info a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+        }
+
+        .info a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #555;
+        }
+
+        .back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            z-index: 20;
+        }
+
+        .back:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="back">← BACK</a>
+
+    <header>
+        <h1>MEMORIAL</h1>
+        <div class="subtitle">
+            EVERY LIGHT REPRESENTS A VOICE
+        </div>
+    </header>
+
+    <div class="memorial" id="memorial">
+        <div class="loading" id="loading">
+            Loading memorial...
+        </div>
+    </div>
+
+    <div class="info" id="info">
+        <strong id="author"></strong>
+
+        <div class="date" id="date"></div>
+
+        <a id="link" href="#" target="_blank" rel="noopener noreferrer">
+            VIEW ON TIKTOK →
+        </a>
+    </div>
+
+    <script>
+
+        const SUPABASE_URL = "https://wbwctmoikpvbithczebl.supabase.co/rest/v1/";
+        const SUPABASE_ANON_KEY = "sb_publishable_6shdQ6Doz2mj76KnDOe9gA_xd58ISWn";
+
+        async function loadMemorial() {
+
+            const memorial = document.getElementById("memorial");
+            const loading = document.getElementById("loading");
+
+            try {
+
+                const response = await fetch(
+                    SUPABASE_URL +
+                    "/posts?select=tiktok_id,url,author,posted_at&order=posted_at.desc&limit=500",
+                    {
+                        headers: {
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": "Bearer " + SUPABASE_ANON_KEY
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Supabase error: " + response.status);
+                }
+
+                const posts = await response.json();
+
+                loading.remove();
+
+                posts.forEach((post, index) => {
+
+                    const star = document.createElement("div");
+
+                    star.className = "star";
+
+                    /*
+                     * Deterministic positions:
+                     * the same post stays roughly in the same place
+                     * when the page is reloaded.
+                     */
+
+                    const x = (index * 47) % 96 + 2;
+                    const y = (index * 83) % 90 + 5;
+
+                    star.style.left = x + "%";
+                    star.style.top = y + "%";
+
+                    star.addEventListener("click", function () {
+
+                        document.getElementById("author").textContent =
+                            post.author || "Unknown author";
+
+                        document.getElementById("date").textContent =
+                            post.posted_at || "";
+
+                        document.getElementById("link").href =
+                            post.url || "#";
+
+                        document.getElementById("info").style.display =
+                            "block";
+                    });
+
+                    memorial.appendChild(star);
+                });
+
+            } catch (error) {
+
+                console.error(error);
+
+                loading.textContent =
+                    "Unable to load memorial.";
+            }
+        }
+
+        loadMemorial();
+
+    </script>
+
+</body>
+</html>
