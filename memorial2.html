@@ -112,12 +112,18 @@
         }
 
         .info {
-            position: fixed;
-            left: 50%;
-            bottom: 25px;
-            transform: translateX(-50%);
-            width: min(90%, 350px);
-            padding: 18px;
+    position: absolute;
+    width: 260px;
+    padding: 16px;
+    background: rgba(15,15,15,0.97);
+    border: 1px solid #333;
+    border-radius: 8px;
+    text-align: center;
+    display: none;
+    z-index: 50;
+}
+
+        padding: 18px;
             background: rgba(15,15,15,0.96);
             border: 1px solid #333;
             border-radius: 8px;
@@ -323,38 +329,46 @@
                             memory.appendChild(number);
 
 
-                            memory.addEventListener(
-                                "click",
-                                function () {
+                         memory.addEventListener(
+    "click",
+    function () {
 
-                                    document.getElementById(
-                                        "author"
-                                    ).textContent =
-                                        post.author ||
-                                        "Unknown author";
+        const info =
+            document.getElementById("info");
 
+        document.getElementById(
+            "author"
+        ).textContent =
+            post.author ||
+            "Unknown author";
 
-                                    document.getElementById(
-                                        "date"
-                                    ).textContent =
-                                        post.posted_at ||
-                                        "";
+        document.getElementById(
+            "date"
+        ).textContent =
+            post.posted_at ||
+            "";
 
+        document.getElementById(
+            "link"
+        ).href =
+            post.url ||
+            "#";
 
-                                    document.getElementById(
-                                        "link"
-                                    ).href =
-                                        post.url ||
-                                        "#";
+        const rect =
+            memory.getBoundingClientRect();
 
+        info.style.left =
+            (rect.left + window.scrollX +
+            rect.width / 2 - 130) + "px";
 
-                                    document.getElementById(
-                                        "info"
-                                    ).style.display =
-                                        "block";
+        info.style.top =
+            (rect.bottom + window.scrollY + 12) + "px";
 
-                                }
-                            );
+        info.style.display =
+            "block";
+
+    }
+);
 
 
                             row.appendChild(memory);
