@@ -328,7 +328,18 @@
 
                             memory.appendChild(number);
 
-memory.addEventListener(
+
+            info.style.left =
+            (rect.left + window.scrollX +
+            rect.width / 2 - 130) + "px";
+
+        info.style.top =
+            (rect.bottom + window.scrollY + 12) + "px";
+
+        info.style.display =
+            "block";
+
+                            memory.addEventListener(
     "click",
     function () {
 
@@ -357,31 +368,15 @@ memory.addEventListener(
             memory.getBoundingClientRect();
 
         info.style.left =
-            (rect.left + window.scrollX +
-            rect.width / 2 - 130) + "px";
+            (rect.left + rect.width / 2 - 130) + "px";
 
         info.style.top =
-            (rect.bottom + window.scrollY + 12) + "px";
+            (rect.bottom + 12) + "px";
 
         info.style.display =
             "block";
-
     }
 );
-
-            info.style.left =
-            (rect.left + window.scrollX +
-            rect.width / 2 - 130) + "px";
-
-        info.style.top =
-            (rect.bottom + window.scrollY + 12) + "px";
-
-        info.style.display =
-            "block";
-
-    }
-);
-
 
                             row.appendChild(memory);
 
