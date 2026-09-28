@@ -102,6 +102,78 @@
        
 
     </div>
+<script>
+    const SUPABASE_URL = "https://wbwctmoikpvbithczebl.supabase.co/rest/v1/";
+    const SUPABASE_ANON_KEY = "sb_publishable_6shdQ6Doz2mj76KnDOe9gA_xd58ISWn";
+
+    async function loadPosts() {
+        const container = document.getElementById("supabase-posts");
+
+        try {
+            const response = await fetch(
+                SUPABASE_URL +
+                "/rest/v1/posts?select=tiktok_id,url,author,text,posted_at,thumbnail_url&order=posted_at.desc&limit=5",
+                {
+                    headers: {
+                        "apikey": SUPABASE_ANON_KEY,
+                        "Authorization": "Bearer " + SUPABASE_ANON_KEY
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Supabase error: " + response.status);
+            }
+
+            const posts = await response.json();
+
+            container.innerHTML = "";
+
+            posts.forEach(post => {
+                const article = document.createElement("div");
+
+                article.style.cssText =
+                    "background:#111;padding:20px;margin-bottom:25px;border-radius:8px;text-align:left;";
+
+                article.innerHTML = `
+                    ${post.thumbnail_url
+                        ? `<img src="${post.thumbnail_url}" style="width:100%;display:block;margin-bottom:15px;">`
+                        : ""
+                    }
+
+                    <strong>${post.author || "Unknown author"}</strong>
+
+                    <p style="color:#777;">
+                        ${post.posted_at || ""}
+                    </p>
+
+                    <p style="line-height:1.5;">
+                        ${post.text || ""}
+                    </p>
+
+                    <a
+                        href="${post.url}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style="color:white;"
+                    >
+                        VIEW ON TIKTOK →
+                    </a>
+                `;
+
+                container.appendChild(article);
+            });
+
+        } catch (error) {
+            console.error(error);
+
+            container.innerHTML =
+                '<p style="color:#ff6666;">Unable to load memorial posts.</p>';
+        }
+    }
+
+    loadPosts();
+</script>
 
 </body>
 </html>
