@@ -146,49 +146,28 @@
         ${post.text || ""}
     </p>
 
-    <a
-        href="${post.url}"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="color:white;"
-    >
+    <a href="${post.url}"
+       target="_blank"
+       rel="noopener noreferrer"
+       style="color:white;">
         VIEW ON TIKTOK →
     </a>
 `;
 
+container.appendChild(article);
+});
 
-                    <p style="color:#777;">
-                        ${post.posted_at || ""}
-                    </p>
+} catch (error) {
+    console.error(error);
 
-                    <p style="line-height:1.5;">
-                        ${post.text || ""}
-                    </p>
+    container.innerHTML =
+        '<p style="color:#ff6666;">Unable to load memorial posts.</p>';
+}
 
-                    <a
-                        href="${post.url}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="color:white;"
-                    >
-                        VIEW ON TIKTOK →
-                    </a>
-                `;
+}
 
-                container.appendChild(article);
-            });
-
-        } catch (error) {
-            console.error(error);
-
-            container.innerHTML =
-                '<p style="color:#ff6666;">Unable to load memorial posts.</p>';
-        }
-    }
-
-    loadPosts();
+loadPosts();
 </script>
 
 </body>
 </html>
-    
