@@ -132,16 +132,30 @@
             posts.forEach(post => {
                 const article = document.createElement("div");
 
-                article.style.cssText =
-                    "background:#111;padding:20px;margin-bottom:25px;border-radius:8px;text-align:left;";
+           article.style.cssText =
+    "background:#111;padding:20px;margin:0 auto 25px;max-width:600px;border-radius:8px;text-align:left;";
 
-                article.innerHTML = `
-                    ${post.thumbnail_url
-                        ? `<img src="${post.thumbnail_url}" style="width:100%;display:block;margin-bottom:15px;">`
-                        : ""
-                    }
+              article.innerHTML = `
+    <strong>${post.author || "Unknown author"}</strong>
 
-                    <strong>${post.author || "Unknown author"}</strong>
+    <p style="color:#777;">
+        ${post.posted_at || ""}
+    </p>
+
+    <p style="line-height:1.5;">
+        ${post.text || ""}
+    </p>
+
+    <a
+        href="${post.url}"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="color:white;"
+    >
+        VIEW ON TIKTOK →
+    </a>
+`;
+
 
                     <p style="color:#777;">
                         ${post.posted_at || ""}
