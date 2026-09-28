@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>#STOPWARPROJECT</title>
+
     <style>
         body {
             background-color: #000000;
@@ -13,21 +14,25 @@
             padding: 40px 20px;
             margin: 0;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
         }
+
         h1 {
             font-size: 2.5em;
             letter-spacing: 2px;
             margin-bottom: 10px;
         }
+
         .intro {
             color: #aaaaaa;
             font-size: 1.1em;
             margin-bottom: 40px;
             line-height: 1.6;
         }
+
         .instructions {
             background: #111111;
             padding: 30px;
@@ -35,6 +40,7 @@
             margin-bottom: 40px;
             text-align: left;
         }
+
         .instructions h2 {
             margin-top: 0;
             font-size: 1.3em;
@@ -42,39 +48,50 @@
             padding-bottom: 10px;
             letter-spacing: 1px;
         }
+
         ol {
             padding-left: 20px;
             line-height: 1.8;
         }
+
         .wall {
             margin-top: 50px;
             min-height: 400px;
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
+
         <h1>#STOPWARPROJECT</h1>
-        
+
         <p class="intro">
             Ukraine, Iran, Gaza, Sudan, Ethiopia—millions of people displaced,<br>
             civilians and soldiers killed every day, cities destroyed,<br>
             and economic repercussions felt around the world.<br>
-            We want to live in peace.<br> 
+            We want to live in peace.<br>
             STOP WAR PROJECT<br>
             This memorial gathers global citizens demanding an end to all curent wars.
         </p>
 
         <div class="instructions">
+
             <h2>JOIN THE MOVEMENT (5 SECONDS)</h2>
+
             <ol>
                 <li><strong>ORIENTATION:</strong> Record yourself holding your phone horizontally (16:9).</li>
+
                 <li><strong>EYE CONTACT:</strong> Look directly into the camera lens.</li>
+
                 <li><strong>DURATION:</strong> Your video must last exactly 5 seconds.</li>
+
                 <li><strong>MESSAGE:</strong> 1s of silence ➔ Say "Stop the war" (in your native language) ➔ 1s of silence.</li>
+
                 <li><strong>POST:</strong> Post it on TikTok, Instagram, or X with the mandatory hashtag <strong>#STOPWARPROJECT</strong>.</li>
             </ol>
+
         </div>
 
         <p style="color: #777777; font-size: 0.85em; line-height: 1.5; margin: -20px 10px 40px;">
@@ -82,92 +99,7 @@
             and included in StopWarProject compilations.
         </p>
 
-        <!-- THE VIDEO WALL WILL DISPLAY HERE -->
-        <div class="wall">
-            <div id="supabase-posts">
-    <p style="color: #777777;">
-        Loading memorial posts...
-    </p>
-</div>
-<!-- COPIEZ ET COLLEZ LE CODE DE VOTRE FLUX (CURATOR OU AUTRE) JUSTE EN DESSOUS DE CETTE LIGNE -->
-            <div class="wall">
-            <p style="color: #aaaaaa; font-size: 0.9em; margin-bottom: 20px; letter-spacing: 1px;">VIEW THE GLOBAL MEMORIAL LIVE ON:</p>
-            <div style="display: flex; flex-direction: column; gap: 15px; max-width: 300px; margin: 0 auto;">
-                <a href="https://tiktok.com" target="_blank" class="btn">TIKTOK</a>
-                <a href="https://instagram.com" target="_blank" class="btn">INSTAGRAM</a>
-                <a href="https://x.com" target="_blank" class="btn">X (TWITTER)</a>
-                <a href="https://facebook.com" target="_blank" class="btn">FACEBOOK</a>
-            </div>
-        </div>
-       
-
     </div>
-<script>
-    const SUPABASE_URL = "https://wbwctmoikpvbithczebl.supabase.co/rest/v1/";
-    const SUPABASE_ANON_KEY = "sb_publishable_6shdQ6Doz2mj76KnDOe9gA_xd58ISWn";
-
-    async function loadPosts() {
-        const container = document.getElementById("supabase-posts");
-
-        try {
-            const response = await fetch(
-                SUPABASE_URL +
-                "posts?select=tiktok_id,url,author,text,posted_at,thumbnail_url&order=posted_at.desc&limit=5",
-                {
-                    headers: {
-                        "apikey": SUPABASE_ANON_KEY,
-                        "Authorization": "Bearer " + SUPABASE_ANON_KEY
-                    }
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error("Supabase error: " + response.status);
-            }
-
-            const posts = await response.json();
-
-            container.innerHTML = "";
-
-            posts.forEach(post => {
-                const article = document.createElement("div");
-
-           article.style.cssText =
-    "background:#111;padding:20px;margin:0 auto 25px;max-width:600px;border-radius:8px;text-align:left;";
-
-              article.innerHTML = `
-    <strong>${post.author || "Unknown author"}</strong>
-
-    <p style="color:#777;">
-        ${post.posted_at || ""}
-    </p>
-
-    <p style="line-height:1.5;">
-        ${post.text || ""}
-    </p>
-
-    <a href="${post.url}"
-       target="_blank"
-       rel="noopener noreferrer"
-       style="color:white;">
-        VIEW ON TIKTOK →
-    </a>
-`;
-
-container.appendChild(article);
-});
-
-} catch (error) {
-    console.error(error);
-
-    container.innerHTML =
-        '<p style="color:#ff6666;">Unable to load memorial posts.</p>';
-}
-
-}
-
-loadPosts();
-</script>
 
 </body>
 </html>
