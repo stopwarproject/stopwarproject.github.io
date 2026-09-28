@@ -207,203 +207,198 @@
         </a>
 
     </div>
+<script>
+
+const SUPABASE_URL =
+    "https://wbwctmoikpvbithczebl.supabase.co/rest/v1/";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_6shdQ6Doz2mj76KnDOe9gA_xd58ISWn";
 
 
-    <script>
+async function loadMemorial() {
 
-        const SUPABASE_URL = "https://wbwctmoikpvbithczebl.supabase.co/rest/v1/";
-        const SUPABASE_ANON_KEY = "sb_publishable_6shdQ6Doz2mj76KnDOe9gA_xd58ISWn";
+    const container =
+        document.getElementById("memorial");
 
+    const loading =
+        document.getElementById("loading");
 
-        async function loadMemorial() {
-
-            const container =
-                document.getElementById("memorial");
-
-            const loading =
-                document.getElementById("loading");
-
-            const count =
-                document.getElementById("count");
+    const count =
+        document.getElementById("count");
 
 
-            try {
+    try {
 
-                const response = await fetch(
-                    SUPABASE_URL +
-                    "/posts?select=tiktok_id,url,author,posted_at&order=posted_at.asc&limit=500",
-                    {
-                        headers: {
-                            "apikey": SUPABASE_ANON_KEY,
-                            "Authorization":
-                                "Bearer " + SUPABASE_ANON_KEY
-                        }
-                    }
-                );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Supabase error: " +
-                        response.status
-                    );
-
+        const response = await fetch(
+            SUPABASE_URL +
+            "posts?select=tiktok_id,url,author,posted_at&order=posted_at.asc&limit=500",
+            {
+                headers: {
+                    "apikey": SUPABASE_ANON_KEY,
+                    "Authorization":
+                        "Bearer " + SUPABASE_ANON_KEY
                 }
-
-
-                const posts =
-                    await response.json();
-
-
-                loading.remove();
-
-
-                count.textContent =
-                    posts.length +
-                    " CONTRIBUTIONS";
-
-
-                /*
-                 * Five testimonies per row.
-                 * The oldest is #1.
-                 * The newest receives the highest number.
-                 */
-
-                const columns = 25;
-
-
-                for (
-                    let i = 0;
-                    i < posts.length;
-                    i += columns
-                ) {
-
-
-                    const row =
-                        document.createElement("div");
-
-                    row.className = "row";
-
-
-                    const rowPosts =
-                        posts.slice(
-                            i,
-                            i + columns
-                        );
-
-
-                    rowPosts.forEach(
-                        (post, rowIndex) => {
-
-
-                            const memory =
-                                document.createElement("div");
-
-                            memory.className =
-                                "memory";
-
-
-                            const dot =
-                                document.createElement("div");
-
-                            dot.className =
-                                "dot";
-
-
-                            const number =
-                                document.createElement("div");
-
-                            number.className =
-                                "number";
-
-
-                            const memoryNumber =
-                                i + rowIndex + 1;
-
-
-                            number.textContent =
-                                memoryNumber;
-
-
-                            memory.appendChild(number);
-
-
-            info.style.left =
-            (rect.left + window.scrollX +
-            rect.width / 2 - 130) + "px";
-
-        info.style.top =
-            (rect.bottom + window.scrollY + 12) + "px";
-
-        info.style.display =
-            "block";
-
-                            memory.addEventListener(
-    "click",
-    function () {
-
-        const info =
-            document.getElementById("info");
-
-        document.getElementById(
-            "author"
-        ).textContent =
-            post.author ||
-            "Unknown author";
-
-        document.getElementById(
-            "date"
-        ).textContent =
-            post.posted_at ||
-            "";
-
-        document.getElementById(
-            "link"
-        ).href =
-            post.url ||
-            "#";
-
-        const rect =
-            memory.getBoundingClientRect();
-
-        info.style.left =
-            (rect.left + rect.width / 2 - 130) + "px";
-
-        info.style.top =
-            (rect.bottom + 12) + "px";
-
-        info.style.display =
-            "block";
-    }
-);
-
-                            row.appendChild(memory);
-
-                        }
-                    );
-
-
-                    container.appendChild(row);
-
-                }
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                loading.textContent =
-                    "Unable to load memorial.";
-
             }
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Supabase error: " +
+                response.status
+            );
 
         }
 
 
-        loadMemorial();
+        const posts =
+            await response.json();
 
-    </script>
+
+        loading.remove();
+
+
+        count.textContent =
+            posts.length +
+            " PARTICIPATIONS";
+
+
+        const columns = 25;
+
+
+        for (
+            let i = 0;
+            i < posts.length;
+            i += columns
+        ) {
+
+            const row =
+                document.createElement("div");
+
+            row.className = "row";
+
+
+            const rowPosts =
+                posts.slice(
+                    i,
+                    i + columns
+                );
+
+
+            rowPosts.forEach(
+                (post, rowIndex) => {
+
+                    const memory =
+                        document.createElement("div");
+
+                    memory.className =
+                        "memory";
+
+
+                    const number =
+                        document.createElement("div");
+
+                    number.className =
+                        "number";
+
+
+                    const memoryNumber =
+                        i + rowIndex + 1;
+
+
+                    number.textContent =
+                        memoryNumber;
+
+
+                    memory.appendChild(number);
+
+
+                    memory.addEventListener(
+                        "click",
+                        function () {
+
+                            const info =
+                                document.getElementById("info");
+
+
+                            document.getElementById(
+                                "author"
+                            ).textContent =
+                                post.author ||
+                                "Unknown author";
+
+
+                            document.getElementById(
+                                "date"
+                            ).textContent =
+                                post.posted_at ||
+                                "";
+
+
+                            document.getElementById(
+                                "link"
+                            ).href =
+                                post.url ||
+                                "#";
+
+
+                            const rect =
+                                memory.getBoundingClientRect();
+
+
+                            info.style.left =
+                                (
+                                    rect.left +
+                                    window.scrollX +
+                                    rect.width / 2 -
+                                    130
+                                ) + "px";
+
+
+                            info.style.top =
+                                (
+                                    rect.bottom +
+                                    window.scrollY +
+                                    12
+                                ) + "px";
+
+
+                            info.style.display =
+                                "block";
+
+                        }
+                    );
+
+
+                    row.appendChild(memory);
+
+                }
+            );
+
+
+            container.appendChild(row);
+
+        }
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        loading.textContent =
+            "Unable to load memorial.";
+
+    }
+
+}
+
+
+loadMemorial();
+
+</script>
+
 
 </body>
 </html>
