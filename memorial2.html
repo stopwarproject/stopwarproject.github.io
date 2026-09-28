@@ -58,12 +58,17 @@
             padding: 20px 0 60px;
         }
 
-        .row {
-            display: grid;
-            grid-template-columns: repeat(25, 1fr);
-            gap: 35px 25px;
-            margin-bottom: 35px;
-        }
+      .row {
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    gap: 28px 8px;
+    margin-bottom: 28px;
+}
+
+.row:nth-child(even) {
+    transform: translateX(12px);
+}
+
 
         .memory {
             text-align: center;
@@ -305,7 +310,6 @@
                                 memoryNumber;
 
 
-                            memory.appendChild(dot);
                             memory.appendChild(number);
 
 
