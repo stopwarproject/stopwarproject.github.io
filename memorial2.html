@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
 
         body {
             margin: 0;
+            min-height: 100vh;
             background: #000;
             color: #fff;
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -27,13 +29,6 @@
             margin: 0;
             font-size: 2em;
             letter-spacing: 4px;
-        }
-
-        .count {
-            margin-top: 10px;
-            color: #777;
-            font-size: 0.85em;
-            letter-spacing: 2px;
         }
 
         .back {
@@ -51,124 +46,33 @@
             color: white;
         }
 
-        .memorial {
-            width: 94%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 0 60px;
-        }
-
-      .row {
-    display: grid;
-    grid-template-columns: repeat(25, 1fr);
-    gap: 28px 8px;
-    margin-bottom: 28px;
-}
-
-.row:nth-child(even) {
-    transform: translateX(20px);
-}
-
-
-        .memory {
+        .collection-message {
+            min-height: 65vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
             text-align: center;
-            cursor: pointer;
-        }
-
-        .dot {
-            width: 7px;
-            height: 7px;
-            margin: 0 auto 7px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(255,255,255,0.9);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .memory:hover .dot {
-            transform: scale(2);
-            box-shadow: 0 0 18px white;
-        }
-
-        .number {
-    color: #ffffff;
-    font-size: 11px;
-    text-shadow:
-        0 0 4px rgba(255,255,255,0.8),
-        0 0 10px rgba(255,255,255,0.4);
-    transition: transform 0.2s, text-shadow 0.2s;
-}
-        .memory:hover .number {
-    transform: scale(1.4);
-    text-shadow:
-        0 0 6px white,
-        0 0 16px white;
-}
-
-        .loading {
-            text-align: center;
-            color: #555;
-            padding: 100px 20px;
-        }
-
-        .info {
-    position: absolute;
-    width: 260px;
-    padding: 16px;
-    background: rgba(15,15,15,0.97);
-    border: 1px solid #333;
-    border-radius: 8px;
-    text-align: center;
-    display: none;
-    z-index: 50;
-}
-
-        padding: 18px;
-            background: rgba(15,15,15,0.96);
-            border: 1px solid #333;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-            z-index: 50;
-        }
-
-        .info strong {
             font-size: 1em;
-        }
-
-        .info .date {
-            color: #777;
-            font-size: 0.8em;
-            margin: 8px 0 15px;
-        }
-
-        .info a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.8em;
-            letter-spacing: 1px;
-        }
-
-        .info a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 700px) {
-
-            .row {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 30px 15px;
-            }
-
+            line-height: 1.6;
+            letter-spacing: 2px;
+            color: #fff;
         }
 
         @media (max-width: 500px) {
-
-            .row {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 28px 10px;
+            h1 {
+                font-size: 1.5em;
             }
 
+            .collection-message {
+                font-size: 0.9em;
+                letter-spacing: 1.5px;
+            }
+
+            .back {
+                top: 15px;
+                left: 12px;
+            }
         }
     </style>
 </head>
@@ -179,226 +83,11 @@
 
     <header>
         <h1>MEMORIAL</h1>
-
-        <div class="count" id="count">
-            LOADING TESTIMONIES...
-        </div>
     </header>
 
-    <div class="memorial" id="memorial">
-
-        <div class="loading" id="loading">
-            Loading memorial...
-        </div>
-
-    </div>
-
-    <div class="info" id="info">
-
-        <strong id="author"></strong>
-
-        <div class="date" id="date"></div>
-
-        <a id="link"
-           href="#"
-           target="_blank"
-           rel="noopener noreferrer">
-            VIEW ON TIKTOK →
-        </a>
-
-    </div>
-<script>
-
-const SUPABASE_URL =
-    "https://wbwctmoikpvbithczebl.supabase.co/rest/v1/";
-
-const SUPABASE_ANON_KEY =
-    "sb_publishable_6shdQ6Doz2mj76KnDOe9gA_xd58ISWn";
-
-
-async function loadMemorial() {
-
-    const container =
-        document.getElementById("memorial");
-
-    const loading =
-        document.getElementById("loading");
-
-    const count =
-        document.getElementById("count");
-
-
-    try {
-
-        const response = await fetch(
-            SUPABASE_URL +
-            "posts?select=tiktok_id,url,author,posted_at&order=posted_at.asc&limit=500",
-            {
-                headers: {
-                    "apikey": SUPABASE_ANON_KEY,
-                    "Authorization":
-                        "Bearer " + SUPABASE_ANON_KEY
-                }
-            }
-        );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Supabase error: " +
-                response.status
-            );
-
-        }
-
-
-        const posts =
-            await response.json();
-
-
-        loading.remove();
-
-
-        count.textContent =
-            posts.length +
-            " PARTICIPATIONS";
-
-
-        const columns = 25;
-
-
-        for (
-            let i = 0;
-            i < posts.length;
-            i += columns
-        ) {
-
-            const row =
-                document.createElement("div");
-
-            row.className = "row";
-
-
-            const rowPosts =
-                posts.slice(
-                    i,
-                    i + columns
-                );
-
-
-            rowPosts.forEach(
-                (post, rowIndex) => {
-
-                    const memory =
-                        document.createElement("div");
-
-                    memory.className =
-                        "memory";
-
-
-                    const number =
-                        document.createElement("div");
-
-                    number.className =
-                        "number";
-
-
-                    const memoryNumber =
-                        i + rowIndex + 1;
-
-
-                    number.textContent =
-                        memoryNumber;
-
-
-                    memory.appendChild(number);
-
-
-                    memory.addEventListener(
-                        "click",
-                        function () {
-
-                            const info =
-                                document.getElementById("info");
-
-
-                            document.getElementById(
-                                "author"
-                            ).textContent =
-                                post.author ||
-                                "Unknown author";
-
-
-                            document.getElementById(
-                                "date"
-                            ).textContent =
-                                post.posted_at ||
-                                "";
-
-
-                            document.getElementById(
-                                "link"
-                            ).href =
-                                post.url ||
-                                "#";
-
-
-                            const rect =
-                                memory.getBoundingClientRect();
-
-
-                            info.style.left =
-                                (
-                                    rect.left +
-                                    window.scrollX +
-                                    rect.width / 2 -
-                                    130
-                                ) + "px";
-
-
-                            info.style.top =
-                                (
-                                    rect.bottom +
-                                    window.scrollY +
-                                    12
-                                ) + "px";
-
-
-                            info.style.display =
-                                "block";
-
-                        }
-                    );
-
-
-                    row.appendChild(memory);
-
-                }
-            );
-
-
-            container.appendChild(row);
-
-        }
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        loading.textContent =
-            "Unable to load memorial.";
-
-    }
-
-}
-
-
-loadMemorial();
-
-</script>
-
+    <main class="collection-message">
+        <p>THE COLLECTION IS UNDERWAY.</p>
+    </main>
 
 </body>
 </html>
