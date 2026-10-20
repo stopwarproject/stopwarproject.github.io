@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,25 +74,38 @@ h1 {
     margin: 0 10px 4em;
 }
 
+.memorial-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 0 auto;
+}
+
 .memorial-link {
     display: inline-block;
     color: #ffffff;
     text-decoration: none;
     font-size: 0.8em;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     outline: none;
     border: none;
-}
-
-.memorial-link:focus,
-.memorial-link:active {
-    outline: none;
-    border: none;
-    box-shadow: none;
+    transition: opacity 0.2s ease;
 }
 
 .memorial-link:hover {
     opacity: 0.6;
+}
+
+.memorial-link:focus-visible {
+    outline: 1px solid #888888;
+    outline-offset: 6px;
+}
+
+.memorial-test {
+    color: #777777;
+    font-size: 0.7em;
 }
 
 @media (max-width: 600px) {
@@ -120,6 +134,10 @@ h1 {
 
     .step-text {
         font-size: 0.9em;
+    }
+
+    .memorial-nav {
+        gap: 20px;
     }
 
 }
@@ -179,9 +197,19 @@ h1 {
         and included in StopWarProject compilations.
     </p>
 
-    <a href="memorial2.html" class="memorial-link">
-        VIEW THE MEMORIAL →
-    </a>
+    <nav class="memorial-nav" aria-label="Memorial pages">
+
+        <a href="memorial2.html"
+           class="memorial-link memorial-test">
+            MEMORIAL — TEST
+        </a>
+
+        <a href="memorial.html"
+           class="memorial-link">
+            MEMORIAL →
+        </a>
+
+    </nav>
 
 </div>
 
